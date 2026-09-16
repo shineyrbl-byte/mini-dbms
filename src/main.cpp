@@ -1,4 +1,4 @@
-#include "storage/Table.h"
+#include "database/Database.h"
 #include <iostream>
 
 int main() {
@@ -10,18 +10,17 @@ int main() {
 
     Table students("students", studentSchema);
     
-
     Row student({
         Value(101),
         Value(std::string("Avisha")),
         Value(8.8f)
     });
     students.insertRow(student);
-
-    std::vector<Row> rows= students.getRows();
-    std::vector<Value> values= rows[0].getValues();
-    std::cout << std::get<int>(values[0].getData()) << "\n";
-    std::cout << std::get<std::string>(values[1].getData()) << "\n";
-    std::cout << std::get<float>(values[2].getData()) << "\n";
+    Database db;
+    db.addTable(students);
+    Table* foundTable= db.getTable("students");
+    if (foundTable!= nullptr) {
+        std::cout<<foundTable->getName()<<"\n";
+    }
     return 0;
 }
