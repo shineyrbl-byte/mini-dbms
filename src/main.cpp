@@ -10,17 +10,23 @@ int main() {
 
     Table students("students", studentSchema);
     
-    Row student({
+    Row validStudent({
         Value(101),
         Value(std::string("Avisha")),
         Value(8.8f)
     });
-    students.insertRow(student);
-    Database db;
-    db.addTable(students);
-    Table* foundTable= db.getTable("students");
-    if (foundTable!= nullptr) {
-        std::cout<<foundTable->getName()<<"\n";
-    }
+    Row wrongCount({
+        Value(102),
+        Value(std::string("Rahul"))
+    });
+    Row wrongType({
+        Value(std::string("Avisha")),
+        Value(103),
+        Value(8.5f)
+    });
+    
+    std::cout<<students.insertRow(validStudent)<<"\n";
+    std::cout<<students.insertRow(wrongCount)<<"\n";
+    std::cout<<students.insertRow(wrongType)<<"\n";
     return 0;
 }

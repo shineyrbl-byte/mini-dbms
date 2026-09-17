@@ -14,8 +14,19 @@ public:
     Table(std::string name, Schema schema)
         : name(name), schema(schema){
     }
-    void insertRow(Row row){
-        rows.push_back(row);
+    bool insertRow(Row row){
+        std::vector<Column> columns= schema.getColumns();
+        std::vector<Value> values= row.getValues();
+        if (values.size()==columns.size()){
+            for (int i=0;i<values.size();i++){
+                if(columns[i].getType() != values[i].getType()){
+                    return false;
+                }
+            }
+            rows.push_back(row);
+            return true;
+        }
+        else return false;
     }
     std::string getName(){
         return name;
